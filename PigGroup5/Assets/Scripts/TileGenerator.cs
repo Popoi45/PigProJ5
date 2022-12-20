@@ -4,24 +4,29 @@ using UnityEngine;
 
 public class TileGenerator : MonoBehaviour
 {
+    // List of Tiles
     public GameObject[] tilePrefabs;
     private float spawnPos = 0;
     private float tileLength = 100;
-    // Start is called before the first frame update
+
+    
     void Start()
     {
+        //Spawn first 4 Tiles
         SpawnTile(0);
         SpawnTile(1);
         SpawnTile(2);
         SpawnTile(3);
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
    
     }
 
+
+    //Class for making endless amount of tiles
     private void SpawnTile(int tileIndex)
     {
         Instantiate(tilePrefabs[tileIndex], transform.forward * spawnPos, transform.rotation);
