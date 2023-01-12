@@ -5,26 +5,42 @@ using UnityEngine;
 public class TileGenerator : MonoBehaviour
 {
     public GameObject[] tilePrefabs;
+    private List<GameObject> activeTiles = new List<GameObject>();
     private float spawnPos = 0;
     private float tileLength = 100;
+
+
+    [SerializeField] private Transform player;
+    private int startTiles = 6;
+
     // Start is called before the first frame update
     void Start()
     {
-        SpawnTile(0);
-        SpawnTile(1);
-        SpawnTile(2);
-        SpawnTile(3);
+        for (int i = 0; i < startTiles; i++)
+        {
+            SpawnTile(Random.Range(0, tilePrefabs.Length));
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-   
+        if (player.position.z - 60 > spawnPos - (startTiles * tileLength))
+        {
+            SpawnTile(Random.Range(0, tilePrefabs.Length));
+            DeleteTile();
+        }
     }
 
     private void SpawnTile(int tileIndex)
     {
-        Instantiate(tilePrefabs[tileIndex], transform.forward * spawnPos, transform.rotation);
+        GameObject nextTile = Instantiate(tilePrefabs[tileIndex], transform.forward * spawnPos, transform.rotation);
+        activeTiles.Add(nextTile);
         spawnPos += tileLength;
+    }
+    private void DeleteTile()
+    {
+        Destroy(activeTiles[0]);
+        activeTiles.RemoveAt(0);
     }
 }
